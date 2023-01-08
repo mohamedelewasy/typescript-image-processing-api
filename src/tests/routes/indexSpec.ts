@@ -2,7 +2,7 @@ import supertest from "supertest";
 import { promises as fsPromises } from "fs";
 import path from "path";
 import server from "../../server";
-import { getThumbBuffer } from "../../utilities/buffer";
+import getBuffer from "../../utilities/buffer";
 import { getImageSize } from "../../utilities/sharp";
 
 const request = supertest(server);
@@ -19,7 +19,7 @@ describe("test process image", () => {
 
     it("process a new image", async () => {
       await request.get("/api/image?fileName=temp&width=680&height=680");
-      const buffer = await getThumbBuffer("temp", "680", "680");
+      const buffer = await getBuffer("thumb", "temp", "680", "680");
       const size = await getImageSize(<Buffer>buffer);
       expect(size).toEqual({ imgWidth: 680, imgHeight: 680 });
     });
